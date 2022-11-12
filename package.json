@@ -1,0 +1,12 @@
+{
+  "name": "playground-action",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:kharkevich/playground-action.git",
+  "author": "Alexander Kharkevich <alexander_kharkevich@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
+  }
+}
