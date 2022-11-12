@@ -34,7 +34,7 @@ async function main() {
         console.log(`The owner is: ${github.context.repo.owner}`);
         const octokit = new github.getOctokit(core.getInput('repo-token'));
         const comments = await getIssueComments(octokit, github.context.repo.owner, github.context.repo.repo, issue_number);
-        console.log(`The comments are: ${comments}`);
+        console.log(`The comments are: ${JSON.stringify(comments)}`);
     } catch (error) {
         core.setFailed(error.message);
     }
