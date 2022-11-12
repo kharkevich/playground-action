@@ -32,7 +32,8 @@ async function main() {
         console.log(`The issue number is: ${issue_number}`);
         console.log(`The repo is: ${github.context.repo.repo}`);
         console.log(`The owner is: ${github.context.repo.owner}`);
-        const comments = await getIssueComments(github.getOctokit(process.env.GITHUB_TOKEN), github.context.repo.owner, github.context.repo.repo, issue_number);
+        const octokit = new github.getOctokit('repo-token');
+        const comments = await getIssueComments(octokit, github.context.repo.owner, github.context.repo.repo, issue_number);
         console.log(`The comments are: ${comments}`);
     } catch (error) {
         core.setFailed(error.message);
