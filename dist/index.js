@@ -9691,11 +9691,16 @@ const github = __nccwpck_require__(5824);
 
 // function to get issue comments
 async function getIssueComments(octokit, owner, repo, issue_number) {
-    const response = await octokit.issues.listComments({
-        owner,
-        repo,
-        issue_number
+    response = await octokit.request('GET /repos/{owner}/{repo}/issues/{issue_number}/comments{?since,per_page,page}', {
+        owner: owner,
+        repo: repo,
+        issue_number: issue_number
     });
+    // const response = await octokit.issues.listComments({
+    //     owner,
+    //     repo,
+    //     issue_number
+    // });
     return response.data;
 }
 
@@ -9713,7 +9718,8 @@ async function main() {
         console.log(`The issue number is: ${issue_number}`);
         console.log(`The repo is: ${github.context.repo.repo}`);
         console.log(`The owner is: ${github.context.repo.owner}`);
-        const comments = await getIssueComments(github.getOctokit(core.getInput('repo-token')), github.context.repo.owner, github.context.repo.repo, issue_number);
+        const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+        const comments = await getIssueComments(octokit, github.context.repo.owner, github.context.repo.repo, issue_number);
         console.log(`The comments are: ${comments}`);
     } catch (error) {
         core.setFailed(error.message);
