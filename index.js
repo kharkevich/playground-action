@@ -51,7 +51,9 @@ async function main() {
         const decline_words = core.getInput('decline-words').split(',');
         const approve_words = core.getInput('approve-words').split(',');
         core.info(`Decline words: ${decline_words}`);
+        console.log(Array.isArray(decline_words));
         core.info(`Approve words: ${approve_words}`);
+        console.log(Array.isArray(approve_words));
         let approvals = [];
         for (let comment of comments) {
             if (decline_words.some(word => comment.body.includes(word))) {

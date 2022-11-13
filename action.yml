@@ -22,7 +22,7 @@ inputs:
   approve-words:
     description: "Comma-separated list of words that approve"
     required: false
-    default: "approve,approved,looks good,looks good to me,looks good to me!,lgtm,lgtm!,ship it,ship it!,:shipit:,:shipit:!"
+    default: "approve, approved, looks good, looks good to me, looks good to me!, lgtm, lgtm!, ship it, ship it!, :shipit:, :shipit:!"
   decline-words:
     description: "Comma-separated list of words that decline"
     required: false
