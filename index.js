@@ -38,7 +38,7 @@ async function main() {
             team_members = core.getInput('approvers').split(',');
         }
         const payload = JSON.stringify(github.context.payload, undefined, 2)
-        console.log(`The event payload: ${payload}`);
+        // console.log(`The event payload: ${payload}`);
         const issue_number = github.context.payload.issue.number;
         console.log(`The issue number is: ${issue_number}`);
         console.log(`The repo is: ${github.context.repo.repo}`);
@@ -47,12 +47,12 @@ async function main() {
         const comments = await getIssueComments(octokit, github.context.repo.owner, github.context.repo.repo, issue_number);
         console.log(Array.isArray(comments));
         comments.sort((a, b) => b.id - a.id);
-        console.log(`The comments are: ${JSON.stringify(comments, undefined, 2)}`);
+        // console.log(`The comments are: ${JSON.stringify(comments, undefined, 2)}`);
         let approvals = [];
         for (let comment of comments) {
             if (comment.body.includes('decline')) {
                 core.setFailed('The PR has been declined');
-                core.log("Issue was declined");
+                core.info("Issue was declined");
                 return;
             }
             if (comment.body.includes('approve')) {
@@ -65,13 +65,13 @@ async function main() {
             }
             if (approvals.length >= core.getInput('minimum-approvals')) {
                 core.setOutput("approved", true);
-                core.log("Issue was approved");
+                core.info("Issue was approved");
                 return;
             }
         }
         if (approvals.length < core.getInput('minimum-approvals')) {
             core.setOutput("approved", "undefined");
-            core.log("Count of approvals is less than minimum approvals");
+            core.info("Count of approvals is less than minimum approvals");
         }
     } catch (error) {
         core.setFailed(error.message);
