@@ -50,7 +50,7 @@ async function main() {
         // console.log(`The comments are: ${JSON.stringify(comments, undefined, 2)}`);
         let approvals = [];
         for (let comment of comments) {
-            if (comment.body.includes('decline')) {
+            if (core.getInput('decline-worlds').split(',').some(word => comment.body.includes(word))) {
                 core.info("Issue was declined");
                 if (core.getBooleanInput('fail-on-decline')) {
                     core.setFailed('The action has been declined');
@@ -58,7 +58,7 @@ async function main() {
                 core.setOutput('approved', false);
                 return;
             }
-            if (comment.body.includes('approve')) {
+            if (core.getInput('approve-worlds').split(',').some(word => comment.body.includes(word))) {
                 team_members.forEach(member => {
                     if (comment.user.login === member && !approvals.includes(member)) {
                         approvals.push(member);

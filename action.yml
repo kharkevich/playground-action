@@ -19,6 +19,14 @@ inputs:
     description: "Fail workflow if any approver declines"
     required: false
     default: "false"
+  approve-worlds:
+    description: "Comma-separated list of words that approve"
+    required: false
+    default: "approve,approved,looks good,looks good to me,looks good to me!,lgtm,lgtm!,ship it,ship it!,:shipit:,:shipit:!"
+  decline-worlds:
+    description: "Comma-separated list of words that decline"
+    required: false
+    default: "denied, deny, no"
 outputs:
   result:
     description: "The result of the action (approved, rejected or unknown)"
