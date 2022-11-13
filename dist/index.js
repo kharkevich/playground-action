@@ -9738,20 +9738,26 @@ async function main() {
         for (let comment of comments) {
             if (comment.body.includes('decline')) {
                 core.setFailed('The PR has been declined');
-                // core.setOutput("declined", true);
+                core.log("Issue was declined");
                 return;
             }
-
-            team_members.forEach(member => {
-                if (comment.body.includes(member) && !approvals.includes(member)) {
-                    approvals.push(member);
-                    console.log(`The approvals are: ${approvals}`);
-                }
-            });
+            if (comment.body.includes('approve')) {
+                team_members.forEach(member => {
+                    if (comment.user.login === member && !approvals.includes(member)) {
+                        approvals.push(member);
+                        console.log(`The approvals are: ${approvals}`);
+                    }
+                });
+            }
             if (approvals.length >= core.getInput('minimum-approvals')) {
                 core.setOutput("approved", true);
+                core.log("Issue was approved");
                 return;
             }
+        }
+        if (approvals.length < core.getInput('minimum-approvals')) {
+            core.setOutput("approved", "undefined");
+            core.log("Count of approvals is less than minimum approvals");
         }
     } catch (error) {
         core.setFailed(error.message);
