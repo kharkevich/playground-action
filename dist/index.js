@@ -9737,8 +9737,11 @@ async function main() {
         let approvals = [];
         for (let comment of comments) {
             if (comment.body.includes('decline')) {
-                core.setFailed('The PR has been declined');
                 core.info("Issue was declined");
+                if (core.getBooleanInput('fail-on-decline')) {
+                    core.setFailed('The action has been declined');
+                }
+                core.setOutput('approved', false);
                 return;
             }
             if (comment.body.includes('approve')) {

@@ -1,23 +1,27 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: "Hello World"
+description: "Greet someone and record the time"
 inputs:
   repo-token:
-    description: 'GITHUB_TOKEN'
+    description: "GITHUB_TOKEN"
     required: true
   mode:
-    description: 'How to determine approvers: valid values are "team" or "list"'
+    description: "How to determine approvers: valid values are team or list"
     required: true
-    default: 'list'
+    default: "list"
   approvers:
-    description: 'Comma-separated list of approvers or team name'
+    description: "Comma-separated list of approvers or team name"
     required: true
   minimum-approvals:
-    description: Minimum number of approvals to progress workflow
+    description: "Minimum number of approvals to progress workflow"
     required: false
-    default: '1'
+    default: "1"
+  fail-on-decline:
+    description: "Fail workflow if any approver declines"
+    required: false
+    default: "false"
 outputs:
   result:
-    description: 'The result of the action (approved, rejected or unknown)'
+    description: "The result of the action (approved, rejected or unknown)"
 runs:
-  using: 'node16'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"
