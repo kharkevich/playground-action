@@ -9732,7 +9732,27 @@ async function main() {
 
         const comments = await getIssueComments(octokit, github.context.repo.owner, github.context.repo.repo, issue_number);
         console.log(Array.isArray(comments));
+        comments.sort((a, b) => b.id - a.id);
         console.log(`The comments are: ${JSON.stringify(comments, undefined, 2)}`);
+        let approvals = [];
+        for (let comment of comments) {
+            if (comment.body.includes('decline')) {
+                core.setFailed('The PR has been declined');
+                // core.setOutput("declined", true);
+                return;
+            }
+
+            team_members.forEach(member => {
+                if (comment.body.includes(member) && !approvals.includes(member)) {
+                    approvals.push(member);
+                    console.log(`The approvals are: ${approvals}`);
+                }
+            });
+            if (approvals.length >= core.getInput('minimum-approvals')) {
+                core.setOutput("approved", true);
+                return;
+            }
+        }
     } catch (error) {
         core.setFailed(error.message);
     }
