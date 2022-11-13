@@ -1,16 +1,23 @@
 name: 'Hello World'
 description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
-    required: true
-    default: 'World'
   repo-token:
     description: 'GITHUB_TOKEN'
     required: true
+  mode:
+    description: 'How to determine approvers: valid values are "team" or "list"'
+    required: true
+    default: 'list'
+  approvers:
+    description: 'Comma-separated list of approvers or team name'
+    required: true
+  minimum-approvals:
+    description: Minimum number of approvals to progress workflow
+    required: false
+    default: '1'
 outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+  result:
+    description: 'The result of the action (approved, rejected or unknown)'
 runs:
   using: 'node16'
   main: 'dist/index.js'
