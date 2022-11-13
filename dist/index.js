@@ -9721,7 +9721,7 @@ async function main() {
             console.log(JSON.stringify(team_members, undefined, 2));
             // core.setOutput("team_members", team_members);
         } else {
-            team_members = core.getInput('approvers').split(',');
+            team_members = core.getInput('approvers').split(',').map((x) => x.trim());
         }
         const payload = JSON.stringify(github.context.payload, undefined, 2)
         // console.log(`The event payload: ${payload}`);
@@ -9734,8 +9734,8 @@ async function main() {
         console.log(Array.isArray(comments));
         comments.sort((a, b) => b.id - a.id);
         // console.log(`The comments are: ${JSON.stringify(comments, undefined, 2)}`);
-        const decline_words = core.getInput('decline-words').split(',');
-        const approve_words = core.getInput('approve-words').split(',');
+        const decline_words = core.getInput('decline-words').split(',').map(word => word.trim());
+        const approve_words = core.getInput('approve-words').split(',').map(word => word.trim());
         core.info(`Decline words: ${decline_words}`);
         console.log(decline_words);
         console.log(Array.isArray(decline_words));
